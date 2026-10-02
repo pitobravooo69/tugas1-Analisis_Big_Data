@@ -1,0 +1,9 @@
+polars
+duckdb
+pyarrow
+requests
+plotly
+altair
+jupyterlab
+ruff
+kaleido

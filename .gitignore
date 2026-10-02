@@ -1,0 +1,29 @@
+# data mentah terlalu besar untuk Git
+data/raw/*
+!data/raw/.gitkeep
+data/processed/
+
+# Jupyter
+.ipynb_checkpoints/
+*.pyc
+__pycache__/
+
+# Python virtual env
+.venv/
+venv/
+env/
+
+# Environment secrets
+.env
+
+# Output figures (besar; commit selektif)
+output/figures/*.png
+output/figures/*.jpg
+!output/figures/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore

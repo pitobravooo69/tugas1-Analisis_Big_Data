@@ -1,0 +1,35 @@
+services:
+  # ─── JupyterLab ──────────────────────────────────────────────────
+  jupyter:
+    build: .
+    container_name: bmkg_jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      # Mount data/raw dan output agar hasil tersimpan di host
+      - ./data/raw:/app/data/raw
+      - ./output:/app/output
+      # Mount notebooks agar bisa edit langsung dari host
+      - ./notebooks:/app/notebooks
+    environment:
+      - PYTHONPATH=/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── Downloader (one-shot) ────────────────────────────────────────
+  # Contoh: docker compose run --rm downloader --provinsi 35 --limit 20
+  downloader:
+    build: .
+    container_name: bmkg_downloader
+    entrypoint: ["python", "src/download_bmkg.py", "--kode-csv", "data/kode_wilayah.csv"]
+    volumes:
+      - ./data/raw:/app/data/raw
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+    profiles:
+      - tools
